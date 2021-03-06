@@ -102,7 +102,8 @@ tabsContainer.addEventListener('click', function (e) {
 
 // Menu fade animation
 // We use mouseover=/>mouseout for the element to bubble as mouseenter =/> mouseleave doesnt bubble
-const handleHover = function (e, opacity) {
+const handleHover = function (e) {
+  // console.log(this, e.currentTarget);
   if (e.target.classList.contains('nav__link')) {
     const linked = e.target;
     // console.log(linked);
@@ -110,15 +111,26 @@ const handleHover = function (e, opacity) {
     const logo = linked.closest('.nav').querySelector('img');
 
     siblings.forEach(e => {
-      if (e !== linked) e.style.opacity = opacity;
+      if (e !== linked) e.style.opacity = this;
     });
-    logo.style.opacity = opacity;
+    logo.style.opacity = this;
   }
 };
 
 // 3rd method
+// Passing an "argument" into handler
 nav.addEventListener('mouseover', handleHover.bind(0.5));
 nav.addEventListener('mouseout', handleHover.bind(1));
+
+// //////////////////////////////////////
+// Sticky Navigation
+const initialCoords = section1.getBoundingClientRect();
+console.log(initialCoords);
+window.addEventListener('scroll', function () {
+  // console.log(window.scrollY);
+  if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+});
 
 // 2nd Method
 // nav.addEventListener('mouseover', function (e) {
