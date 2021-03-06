@@ -9,6 +9,10 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+const nav = document.querySelector('.nav');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -72,16 +76,12 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 // /////////////////////////////////////////////////////
 // Tabbed Component
 
-const tabs = document.querySelectorAll('.operations__tab');
-const tabsContainer = document.querySelector('.operations__tab-container');
-const tabsContent = document.querySelectorAll('.operations__content');
-
 // Not a good implementation as it keeps on opening new tabs as we click so it might result in opening a lot of tags which might cause the webpage to lag.
 // tabs.forEach(t => t.addEventListener('click', () => console.log('TAB')));
 
 tabsContainer.addEventListener('click', function (e) {
   const clicked = e.target.closest('.operations__tab');
-  console.log(clicked);
+  // console.log(clicked);
 
   // A guard clause to prevent null values to execute further
   if (!clicked) return;
@@ -91,7 +91,7 @@ tabsContainer.addEventListener('click', function (e) {
   clicked.classList.add('operations__tab--active');
 
   // Activate content tab
-  console.log(clicked.dataset.tab);
+  // console.log(clicked.dataset.tab);
 
   // Remove the active classes
   tabsContent.forEach(c => c.classList.remove('operations__content--active'));
@@ -100,7 +100,64 @@ tabsContainer.addEventListener('click', function (e) {
     .classList.add('operations__content--active');
 });
 
-///////////////////////////////////////
+// Menu fade animation
+// We use mouseover=/>mouseout for the element to bubble as mouseenter =/> mouseleave doesnt bubble
+const handleHover = function (e, opacity) {
+  if (e.target.classList.contains('nav__link')) {
+    const linked = e.target;
+    // console.log(linked);
+    const siblings = linked.closest('.nav').querySelectorAll('.nav__link');
+    const logo = linked.closest('.nav').querySelector('img');
+
+    siblings.forEach(e => {
+      if (e !== linked) e.style.opacity = opacity;
+    });
+    logo.style.opacity = opacity;
+  }
+};
+
+// 3rd method
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+nav.addEventListener('mouseout', handleHover.bind(1));
+
+// 2nd Method
+// nav.addEventListener('mouseover', function (e) {
+//   handleHover(e, 0.5);
+// });
+// nav.addEventListener('mouseout', function (e) {
+//   handleHover(e, 1);
+// });
+
+// 1st method
+// nav.addEventListener('mouseover', function (e) {
+//   if (e.target.classList.contains('nav__link')) {
+//     const linked = e.target;
+//     // console.log(linked);
+//     const siblings = linked.closest('.nav').querySelectorAll('.nav__link');
+//     const logo = linked.closest('.nav').querySelector('img');
+
+//     siblings.forEach(e => {
+//       if (e !== linked) e.style.opacity = 0.5;
+//     });
+//     logo.style.opacity = 0.5;
+//   }
+// });
+
+// nav.addEventListener('mouseout', function (e) {
+//   if (e.target.classList.contains('nav__link')) {
+//     const linked = e.target;
+//     // console.log(linked);
+//     const siblings = linked.closest('.nav').querySelectorAll('.nav__link');
+//     const logo = linked.closest('.nav').querySelector('img');
+
+//     siblings.forEach(e => {
+//       if (e !== linked) e.style.opacity = 1;
+//     });
+//     logo.style.opacity = 1;
+//   }
+// });
+
+////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////
 // /////////////////////////////////////
 // Selecting , Creating and deleting elements
