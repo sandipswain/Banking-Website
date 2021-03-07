@@ -124,13 +124,13 @@ nav.addEventListener('mouseout', handleHover.bind(1));
 
 // //////////////////////////////////////
 // Sticky Navigation
-const initialCoords = section1.getBoundingClientRect();
-console.log(initialCoords);
-window.addEventListener('scroll', function () {
-  // console.log(window.scrollY);
-  if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
-  else nav.classList.remove('sticky');
-});
+// const initialCoords = section1.getBoundingClientRect();
+// console.log(initialCoords);
+// window.addEventListener('scroll', function () {
+//   // console.log(window.scrollY);
+//   if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// });
 
 // 2nd Method
 // nav.addEventListener('mouseover', function (e) {
@@ -168,6 +168,42 @@ window.addEventListener('scroll', function () {
 //     logo.style.opacity = 1;
 //   }
 // });
+
+//////////////////////////////////////////////////////////////////////
+// Sticky Navigation :Intersection Observer API
+// const obsCallback = function (entries, observer) {
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   });
+// };
+
+// // When the root and threshold intersect the obsCallback gets called
+// const obsOptions = {
+//   root: null,
+//   // % of intersection at which the observer callback will be called
+//   threshold: 0.1,
+// };
+
+// const observer = new IntersectionObserver(obsCallback, obsOptions);
+// // To observe the certain target
+// observer.observe(section1);
+
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+console.log(navHeight);
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  console.log(entry);
+
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `${navHeight}px`,
+});
+headerObserver.observe(header);
 
 ////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////
