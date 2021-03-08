@@ -254,6 +254,53 @@ const imgObserver = new IntersectionObserver(loading, {
 });
 
 imgTargets.forEach(img => imgObserver.observe(img));
+
+// ///////////////////////////////////////////////////////////
+// Building Image Slider 1
+
+const slides = document.querySelectorAll('.slide');
+const btnLeft = document.querySelector('.slider__btn--left');
+const btnRight = document.querySelector('.slider__btn--right');
+
+let curSlide = 0;
+const maxSlide = slides.length;
+
+const gotoSlide = function (slide) {
+  slides.forEach(
+    (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+  );
+};
+
+const slider = document.querySelector('.slider');
+slider.style.transform = 'scale(0.4) translateX(-1200px)';
+slider.style.overflow = 'visible';
+// slides.forEach((s, i) => (s.style.transform = `translateX(${100 * i}%)`));
+gotoSlide(0);
+
+// Next Slide
+const nextSlide = function () {
+  if (curSlide === maxSlide - 1) {
+    curSlide = 0;
+  } else {
+    curSlide++;
+  }
+  gotoSlide(curSlide);
+};
+
+// Previous Slide
+const prevSlide = function () {
+  if (curSlide === 0) {
+    curSlide = maxSlide - 1;
+  } else {
+    curSlide--;
+  }
+  gotoSlide(curSlide);
+};
+
+btnRight.addEventListener('click', nextSlide);
+btnLeft.addEventListener('click', prevSlide);
+// -100,0,100,200
+// 1st at 0% ,2nd at 100% , 3rd at 200% and 300%
 ////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////
 // /////////////////////////////////////
